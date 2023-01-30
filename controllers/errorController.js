@@ -1,6 +1,7 @@
 // Express automatically knows that this entire function is an error handling middleware by specifying 4 parameters
 module.exports = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
+    console.log("Error: ", err.statusCode, err.message);
     err.status = err.status || "error"
     console.log("Stack: ", err.stack);
     if(err.code===11000){

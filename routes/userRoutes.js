@@ -6,6 +6,9 @@ const authController = require('./../controllers/authController');
 
 router.post('/login', authController.login);
 router.post('/signup', authController.signup);
+router
+    .route('/')
+    .get(userController.getAllUsers);
 
 router.use(authController.protect);
 
@@ -13,9 +16,6 @@ router.delete('/deleteMe', userController.deleteMe);
 
 router.use(authController.restrictTo('admin'));
 
-router
-    .route('/')
-    .get(userController.getAllUsers);
 
 
 router

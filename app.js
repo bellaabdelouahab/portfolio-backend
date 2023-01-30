@@ -14,12 +14,14 @@ const AppError = require('./utils/appError');
 const app = express();
 
 // Allow Cross-Origin requests
-app.use(cors(
-    {
-        origin: 'http://localhost:3000',
-        credentials: true
-    }
-));
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    // allowedHeaders: ["Content-Type", "Authorization"]
+  })
+);
 
 // Set security HTTP headers
 app.use(helmet());
@@ -37,6 +39,15 @@ app.use(express.json({
     limit: '15000kb'
 }));
 
+// restrict cross origin resource sharing only to the same origin
+app.use((req, res, next) => {
+    res.setHeader('cross-origin-resource-policy', 'same-site');
+    next();
+});
+
+// expoes static files
+app.use(express.static(`${__dirname}/public`));
+
 // Data sanitization against Nosql query injection
 app.use(mongoSanitize());
 
@@ -45,6 +56,7 @@ app.use(xss());
 
 // Prevent parameter pollution
 app.use(hpp());
+
 
 
 // Routes
@@ -60,3 +72,9 @@ app.use('*', (req, res, next) => {
 app.use(globalErrHandler);
 
 module.exports = app;
+
+
+
+
+
+
