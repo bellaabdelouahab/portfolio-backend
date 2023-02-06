@@ -22,8 +22,15 @@ const ProjectSchema = new Schema(
       type: String,
       required: true,
     },
-    codeSamples: [{ type: String }],
-    carouselImages: [{ type: String }],
+    codeSamples: [{ 
+      title: { type: String, required: true },
+      code: { type: String, required: true },
+    }],
+    carouselImages: [{ 
+      img: { type: String, required: true },
+      title: { type: String, required: true },
+      // description: { type: String, required: true },
+    }],
     highlighted: {
       type: String,
       enum: ["star", "basic"],
@@ -61,7 +68,8 @@ ProjectSchema.pre("save", async function (next) {
     fs.mkdirSync(carouselDir);
   }
   // loop on carousel images and save them
-  project.carouselImages.forEach((image, index) => {
+  project.carouselImages.forEach((element, index) => {
+    const image = element.img
     const imageType = image.split(";")[0].split("/")[1];
     const filepath = path.join(
       carouselDir,
@@ -72,7 +80,7 @@ ProjectSchema.pre("save", async function (next) {
       "base64"
     );
     fs.writeFileSync(filepath, imageBuffer);
-    project.carouselImages[index] = filepath;
+    project.carouselImages[index].img = filepath;
   });
   project.image = mainImagePath.replaceAll("\\", "/").replace("public", "");
 
@@ -85,3 +93,4 @@ ProjectSchema.pre("save", async function (next) {
 const Project = mongoose.model("Project", ProjectSchema);
 
 module.exports = Project;
+

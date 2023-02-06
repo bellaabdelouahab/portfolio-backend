@@ -44,6 +44,7 @@ exports.updateOne = Model => async (req, res, next) => {
 exports.createOne = Model => async (req, res, next) => {
     try {
         console.log("success");
+        console.log(req.body);
         const doc = await Model.create(req.body);
 
         res.status(201).json({
