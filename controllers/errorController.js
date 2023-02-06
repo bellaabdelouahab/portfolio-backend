@@ -14,7 +14,7 @@ module.exports = (err, req, res, next) => {
         status: err.status,
         error: err,
         message: err.message,
-        stack: " Do not Forget to remove this in production at any cost !            "+err.stack
+        stack: " Do not Forget to remove this in production at any cost  !            "+err.stack
     });
 
 };
