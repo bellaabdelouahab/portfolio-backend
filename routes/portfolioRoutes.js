@@ -8,6 +8,7 @@ const authController = require("./../controllers/authController");
 
 router.get("/projects",portfolioController.getAllProjects)
 router.get("/projects/:id",portfolioController.getProject)
+router.get("/projects/overview", portfolioController.getOverview)
 
 router.get("/skills",portfolioController.getAllSkills)
 router.get("/skills/:id",portfolioController.getSkill)
@@ -22,6 +23,7 @@ router.use(authController.protect);
 router.use(authController.restrictTo("admin"));
 
 router.patch("/projects/:id",portfolioController.updateProject)
+router.put("/projects/overview",portfolioController.updateOverview)
 
 router.post("/skills",portfolioController.createSkill)
 router.patch("/skills/:id",portfolioController.updateSkill)

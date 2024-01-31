@@ -22,9 +22,14 @@ const ProjectSchema = new Schema(
       type: String,
       required: true,
     },
+    tools: [{
+      title: { type: String, required: true },
+      description: { type: String, required: true },
+    }],
     codeSamples: [{ 
       title: { type: String, required: true },
       code: { type: String, required: true },
+      language: { type: String },
     }],
     carouselImages: [{ 
       img: { type: String, required: true },
@@ -34,7 +39,21 @@ const ProjectSchema = new Schema(
     highlighted: {
       type: String,
       enum: ["star", "basic"],
-    }
+    },
+    startDate: {
+      type: Date,
+      required: true,
+    },
+    endDate: {
+      type: Date,
+    },
+    durration: {
+      type: String,
+    },
+    showInOverview: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
@@ -80,10 +99,29 @@ ProjectSchema.pre("save", async function (next) {
       "base64"
     );
     fs.writeFileSync(filepath, imageBuffer);
-    project.carouselImages[index].img = filepath;
+    project.carouselImages[index].img = filepath.replaceAll("\\", "/").replace("public", "");
   });
   project.image = mainImagePath.replaceAll("\\", "/").replace("public", "");
 
+
+  // set start and end date to YYYY-MM-DD format
+  project.startDate = new Date(project.startDate);
+  project.startDate = project.startDate.toISOString().split("T")[0];
+  if (project.endDate) {
+    project.endDate = new Date(project.endDate);
+    project.endDate = project.endDate.toISOString().split("T")[0];
+  }
+
+  // calcluate durration
+  const startDate = new Date(project.startDate);
+  const endDate = new Date(project.endDate);
+  if (!endDate) {
+    next();
+    return;
+  }
+  const diffTime = Math.abs(endDate - startDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  project.durration = diffDays + " days";
   next();
 });
 

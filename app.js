@@ -66,6 +66,7 @@ app.use('/api', portfolioRoutes);
 // handle undefined Routes
 app.use('*', (req, res, next) => {
     const err = new AppError(404, 'fail', 'undefined route');
+    console.log(req.originalUrl);
     next(err, req, res, next);
 });
 

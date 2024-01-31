@@ -77,10 +77,12 @@ exports.getOne = Model => async (req, res, next) => {
 };
 
 exports.getAll = Model => async (req, res, next) => {
+    console.log("success");
     try {
         const features = new APIFeatures(Model.find(), req.query)
             .sort()
-            .paginate();
+            .paginate()
+            .limitFields();
 
         const doc = await features.query;
         res.status(200).json({

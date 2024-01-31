@@ -64,8 +64,7 @@ dist/
 # Build output (Next.js)
 .next/
 
-# Build output (Gatsby)
-public/
+
 
 # Build output (create-react-native-app)
 ios/build/
