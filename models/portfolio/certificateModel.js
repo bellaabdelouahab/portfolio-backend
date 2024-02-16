@@ -22,7 +22,6 @@ const CertificateModel = new Schema(
       type: String,
       required: true,
     },
-    // downloapath if exists
     downloadPath: {
       type: String,
     },

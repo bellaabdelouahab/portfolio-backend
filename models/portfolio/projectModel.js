@@ -26,12 +26,12 @@ const ProjectSchema = new Schema(
       title: { type: String, required: true },
       description: { type: String, required: true },
     }],
-    codeSamples: [{ 
+    codeSamples: [{
       title: { type: String, required: true },
       code: { type: String, required: true },
       language: { type: String },
     }],
-    carouselImages: [{ 
+    carouselImages: [{
       img: { type: String, required: true },
       title: { type: String, required: true },
       // description: { type: String, required: true },
@@ -54,6 +54,9 @@ const ProjectSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    tags:{
+      type:[String] 
+    }
   },
   {
     timestamps: true,
@@ -67,7 +70,7 @@ ProjectSchema.pre("save", async function (next) {
     return next();
   }
   const date = new Date();
-  const mainPath = path.join("public","images", project._id+"");
+  const mainPath = path.join("public", "images", project._id + "");
   // create folder with _id as a name in mainPath
   if (!fs.existsSync(mainPath)) {
     fs.mkdirSync(mainPath);
@@ -116,13 +119,15 @@ ProjectSchema.pre("save", async function (next) {
   const startDate = new Date(project.startDate);
   const endDate = new Date(project.endDate);
   if (!endDate) {
+    project.durration = "ongoing";
     next();
-    return;
   }
-  const diffTime = Math.abs(endDate - startDate);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  project.durration = diffDays + " days";
-  next();
+  else {
+    const diffTime = Math.abs(endDate - startDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    project.durration = diffDays + " days";
+    next();
+  }
 });
 
 // load project image from public folder when getting project

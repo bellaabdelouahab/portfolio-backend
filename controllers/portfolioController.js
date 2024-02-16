@@ -58,3 +58,12 @@ exports.createReport = base.createOne(Report);
 exports.updateReport = base.updateOne(Report);
 exports.deleteReport = base.deleteOne(Report);
 
+// clients
+const Client = require("../models/portfolio/clientsModel");
+exports.getAllClients = base.getAll(Client);
+exports.getClient = base.getOne(Client);
+exports.createClient = base.createOne(Client);
+exports.updateClient = base.updateOne(Client);
+exports.deleteClient = base.deleteOne(Client);
+
+
