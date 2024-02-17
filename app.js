@@ -65,12 +65,18 @@ app.use(hpp());
 app.use('/api/users', userRoutes);
 app.use('/api', portfolioRoutes);
 
-// handle undefined Routes
-app.use('*', (req, res, next) => {
-    const err = new AppError(404, 'fail', 'undefined route');
+// handle undefined api Routes
+app.use('api/*', (req, res, next) => {
+    const err = new AppError(404, 'fail', 'undefined api route');
     console.log(req.originalUrl);
     next(err, req, res, next);
 });
+
+// if the route does not start with /api, then it is a react route
+app.use('/*', (req, res) => {
+    res.sendFile(`${__dirname}/output/index.html`);
+});
+
 
 app.use(globalErrHandler);
 
