@@ -72,6 +72,8 @@ ios/build/
 # Build output (expo)
 .expo-shared/
 
+# react output
+output/
 
 
 

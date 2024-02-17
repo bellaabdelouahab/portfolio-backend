@@ -47,6 +47,8 @@ app.use((req, res, next) => {
 
 // expoes static files
 app.use(express.static(`${__dirname}/public`));
+// export static files react build
+app.use(express.static(`${__dirname}/output`));
 
 // Data sanitization against Nosql query injection
 app.use(mongoSanitize());
