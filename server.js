@@ -23,13 +23,18 @@ mongoose
   .connect(database, {useNewUrlParser: true})
   .then((con) => {
     console.log("DB connection Successfully!");
-  });
 
-// Start the server
-const port = process.env.PORT;
-app.listen(port, () => {
-  console.log("\x1b[30m","Application is running on  ", "\x1b[32m",`http://localhost:${port}/api`, "\x1b[0m", '');
-});
+    // Start the server
+    const port = process.env.PORT;
+    app.listen(port, () => {
+      console.log("\x1b[30m","Application is running on  ", "\x1b[32m",`http://localhost:${port}/api`, "\x1b[0m", '');
+    });
+  })
+  .catch((err) => {
+    console.log("DB connection failed!");
+    console.log(err.name, err.message);
+    process.exit(1);
+  });
 
 process.on("unhandledRejection", (err) => {
   console.log("UNHANDLED REJECTION!!!  shutting down ...");
@@ -38,6 +43,3 @@ process.on("unhandledRejection", (err) => {
     process.exit(1);
   });
 });
-
-
-
