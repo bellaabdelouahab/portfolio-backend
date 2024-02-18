@@ -16,9 +16,13 @@ const app = express();
 // Allow Cross-Origin requests
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "*",
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"]
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+
   })
 );
 
@@ -58,14 +62,7 @@ app.use(xss());
 // Prevent parameter pollution
 app.use(hpp());
 
-// cross origin resource sharing error
-app.use((req, res, next) => {
-    res.setHeader('cross-origin-resource-policy', 'same-site');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE,OPTIONS,PATCH');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-});
+
 
 // Routes
 app.use('/api/users', userRoutes);
