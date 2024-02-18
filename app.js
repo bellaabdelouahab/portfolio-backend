@@ -15,15 +15,15 @@ const app = express();
 
 // Allow Cross-Origin requests
 app.use(
-  cors({
-    origin: ['http://46.101.84.142', 'http://46.101.84.142:8000'],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-    preflightContinue: false,
-    optionsSuccessStatus: 204
+    cors({
+        origin: ['http://46.101.84.142', 'http://46.101.84.142:8000'],
+        credentials: true,
+        allowedHeaders: ["Content-Type", "Authorization", "access-control-allow-origin"], // Add "access-control-allow-origin" to the allowed headers
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+        preflightContinue: false,
+        optionsSuccessStatus: 204
 
-  })
+    })
 );
 
 // Set security HTTP headers
