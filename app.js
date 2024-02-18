@@ -19,7 +19,7 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
-    // allowedHeaders: ["Content-Type", "Authorization"]
+    allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 
@@ -59,7 +59,11 @@ app.use(xss());
 // Prevent parameter pollution
 app.use(hpp());
 
-
+// cross origin resource sharing error
+app.use((req, res, next) => {
+    res.setHeader('cross-origin-resource-policy', 'same-site');
+    next();
+});
 
 // Routes
 app.use('/api/users', userRoutes);
