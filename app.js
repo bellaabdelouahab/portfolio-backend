@@ -16,7 +16,7 @@ const app = express();
 // Allow Cross-Origin requests
 app.use(
     cors({
-        origin: ['http://46.101.84.142', 'http://codemaster.ninja','https://codemaster.ninja'],
+        origin: ['http://46.101.84.142', 'http://localhost:3000', 'http://codemaster.ninja','https://codemaster.ninja'],
         credentials: true,
         allowedHeaders: ["Content-Type", "Authorization", "access-control-allow-origin"], // Add "access-control-allow-origin" to the allowed headers
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",

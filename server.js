@@ -1,6 +1,12 @@
+const fs = require("fs");
+const path = require("path");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-dotenv.config();
+dotenv.config({
+  path: fs.existsSync(path.join(__dirname, ".env.production"))
+    ? ".env.production"
+    : ".env",
+});
 
 process.on("uncaughtException", (err) => {
   console.log("UNCAUGHT EXCEPTION!!! shutting down...");
@@ -13,21 +19,28 @@ const app = require("./app");
 
 const database = process.env.DATABASE.replace(
   "<PASSWORD>",
-  process.env.DATABASE_PASSWORD 
+  process.env.DATABASE_PASSWORD
 );
 
 mongoose.set("strictQuery", true);
 
 // Connect the database
 mongoose
-  .connect(database, {useNewUrlParser: true})
+  .connect(database, { useNewUrlParser: true })
   .then((con) => {
     console.log("DB connection Successfully!");
 
     // Start the server
     const port = process.env.PORT;
     app.listen(port, () => {
-      console.log("\x1b[30m","Application is running on  ", "\x1b[32m",`http://localhost:${port}/api`, "\x1b[0m", '');
+      console.log(
+        "\x1b[30m",
+        "Application is running on  ",
+        "\x1b[32m",
+        `http://localhost:${port}/api`,
+        "\x1b[0m",
+        ""
+      );
     });
   })
   .catch((err) => {

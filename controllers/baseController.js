@@ -43,7 +43,6 @@ exports.updateOne = Model => async (req, res, next) => {
 
 exports.createOne = Model => async (req, res, next) => {
     try {
-        console.log("success");
         console.log(req.body);
         const doc = await Model.create(req.body);
 
@@ -77,12 +76,12 @@ exports.getOne = Model => async (req, res, next) => {
 };
 
 exports.getAll = Model => async (req, res, next) => {
-    console.log("success");
     try {
-        const features = new APIFeatures(Model.find(), req.query)
+        const features = new APIFeatures(Model.find().sort({ createdAt: -1 }), req.query)
             .sort()
             .paginate()
-            .limitFields();
+            .limitFields()
+            
 
         const doc = await features.query;
         res.status(200).json({

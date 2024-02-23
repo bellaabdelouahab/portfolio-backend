@@ -34,7 +34,6 @@ const ProjectSchema = new Schema(
     carouselImages: [{
       img: { type: String, required: true },
       title: { type: String, required: true },
-      // description: { type: String, required: true },
     }],
     highlighted: {
       type: String,
@@ -117,16 +116,18 @@ ProjectSchema.pre("save", async function (next) {
 
   // calcluate durration
   const startDate = new Date(project.startDate);
-  const endDate = new Date(project.endDate);
-  if (!endDate) {
+  if (!project.endDate) {
     project.durration = "ongoing";
     next();
+    return
   }
   else {
+    const endDate = new Date(project.endDate);
     const diffTime = Math.abs(endDate - startDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     project.durration = diffDays + " days";
     next();
+    return;
   }
 });
 
