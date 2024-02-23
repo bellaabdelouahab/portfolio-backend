@@ -44,6 +44,17 @@ exports.getCertificate = base.getOne(Certificate);
 exports.createCertificate = base.createOne(Certificate);
 exports.updateCertificate = base.updateOne(Certificate);
 exports.deleteCertificate = base.deleteOne(Certificate);
+exports.countCertificates = async (req, res, next) => {
+    try {
+        const count = await Certificate.countDocuments();
+        res.status(200).json({
+            status: "success",
+            data: count
+        });
+    } catch (error) {
+        next(error);
+    }
+}
 
 
 exports.getAllSkills = base.getAll(Skill);
