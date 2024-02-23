@@ -145,3 +145,52 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+
+exports.isLoggedIn = async (req, res, next) => {
+  try {
+    // 1) check if the token is there
+    if (req.headers.cookie && req.headers.cookie.startsWith("jwt")) {
+      // verify token
+      const token = req.headers.cookie.split("=")[1];
+      const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+      // 3) check if the user is exist (not deleted)
+      const user = await User.findById(decode.id);
+      if (!user) {
+        return next(
+          new AppError(401, "fail", "This user is no longer exist"),
+          req,
+          res,
+          next,
+        );
+      }
+      // 4) check if the user changed password after the token was issued
+      if (user.changedPasswordAfter(decode.iat)) {
+        return next(
+          new AppError(
+            401,
+            "fail",
+            "User recently changed password! Please login again",
+          ),
+          req,
+          res,
+          next,
+        );
+      }
+
+      return res.status(200).json({
+        status: "success",
+        data: {
+          user: req.user,
+        },
+      });
+    }
+    return next();
+  } catch (err) {
+    return res.status(401).json({
+      status: "fail",
+      message: err,
+    });
+  }
+}
