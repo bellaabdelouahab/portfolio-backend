@@ -17,8 +17,8 @@ router.get("/reports",portfolioController.getAllReports)
 router.get("/reports/:id",portfolioController.getReport)
 
 router.get("/certificates",portfolioController.getAllCertificates)
+router.get("/certificates/count",portfolioController.countCertificates)
 // count certificates
-router.get("certificates/count",portfolioController.countCertificates)
 
 router.get("/clients",portfolioController.getAllClients)
 router.get("/clients/:id",portfolioController.getClient)
