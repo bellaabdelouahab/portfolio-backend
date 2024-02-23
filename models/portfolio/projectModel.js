@@ -53,9 +53,19 @@ const ProjectSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    tags:{
-      type:[String] 
-    }
+    tags: {
+      type: [String]
+    },
+    dataSources: [{
+      type: {
+        type: String,
+        required: true,
+        enum: ["excel", "csv", "json", "sql-server", "mysql", "mongodb", "python", "xml"],
+      },
+      name: { type: String, required: true },
+      size: { type: String, required: true },
+      link: { type: String },
+    }],
   },
   {
     timestamps: true,
