@@ -4,7 +4,7 @@ const userController = require('../controllers/userController');
 const authController = require('./../controllers/authController');
 
 // route to check if user is logged in
-router.get('/isLoggedIn', authController.isLoggedIn);
+router.get('/is-logged-in', authController.isLoggedIn);
 
 router.post('/login', authController.login);
 router.post('/signup', authController.signup);

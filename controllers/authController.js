@@ -149,12 +149,10 @@ exports.restrictTo = (...roles) => {
 
 exports.isLoggedIn = async (req, res, next) => {
   try {
-    // 1) check if the token is there
-    if (req.headers.cookie && req.headers.cookie.startsWith("jwt")) {
+    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
       // verify token
-      const token = req.headers.cookie.split("=")[1];
+      const token = req.headers.authorization.split(" ")[1];
       const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
       // 3) check if the user is exist (not deleted)
       const user = await User.findById(decode.id);
       if (!user) {
@@ -165,28 +163,19 @@ exports.isLoggedIn = async (req, res, next) => {
           next,
         );
       }
-      // 4) check if the user changed password after the token was issued
-      if (user.changedPasswordAfter(decode.iat)) {
-        return next(
-          new AppError(
-            401,
-            "fail",
-            "User recently changed password! Please login again",
-          ),
-          req,
-          res,
-          next,
-        );
-      }
-
       return res.status(200).json({
         status: "success",
         data: {
-          user: req.user,
+          user: user,
         },
       });
     }
-    return next();
+    return next(
+      new AppError(401, "fail", "You are not logged in! Please login in to continue"),
+      req,
+      res,
+      next,
+    );
   } catch (err) {
     return res.status(401).json({
       status: "fail",
