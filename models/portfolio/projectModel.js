@@ -22,10 +22,16 @@ const ProjectSchema = new Schema(
       type: String,
       required: true,
     },
-    tools: [{
-      title: { type: String, required: true },
-      description: { type: String, required: true },
-    }],
+    tools: {
+      techs: [{
+        title: { type: String, required: true },
+        description: { type: String, required: true },
+      }],
+      resources: [{
+        title: { type: String, required: true },
+        description: { type: String, required: true },
+      }],
+    },
     codeSamples: [{
       title: { type: String, required: true },
       code: { type: String, required: true },
