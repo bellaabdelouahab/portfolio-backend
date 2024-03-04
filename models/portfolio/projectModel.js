@@ -159,6 +159,24 @@ ProjectSchema.pre("save", async function (next) {
   }
 });
 
+// when deleting project, delete its images from public folder
+ProjectSchema.pre("remove", async function (next) {
+  const project = this;
+  try {
+    const mainPath = path.join("public", "images", "projects", project._id + "");
+    if (fs.existsSync(mainPath)) {
+      fs.rmdirSync(mainPath, { recursive: true });
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+);
+
+
+
+
 // load project image from public folder when getting project
 
 
