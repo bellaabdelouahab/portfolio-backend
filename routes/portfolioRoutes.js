@@ -41,5 +41,12 @@ router.patch("/skills/:id",portfolioController.updateSkill)
 
 router.patch("/reports/:id",portfolioController.updateReport)
 
+// delete
+router.delete("/projects/:id", portfolioController.deleteProject);
+router.delete("/skills/:id", portfolioController.deleteSkill);
+router.delete("/reports/:id", portfolioController.deleteReport);
+router.delete("/certificates/:id", portfolioController.deleteCertificate);
+router.delete("/clients/:id", portfolioController.deleteClient);
+
 module.exports = router;
 
