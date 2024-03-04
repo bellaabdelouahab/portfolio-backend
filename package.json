@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "debug": "ndb server.js",
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "Bella Abdelouahab",
   "license": "ISC",
