@@ -18,7 +18,7 @@ process.on("uncaughtException", (err) => {
 const app = require("./app");
 
 const database = process.env.DATABASE.replace(
-  "<PASSWORD>",
+  "<db_password>", 
   process.env.DATABASE_PASSWORD
 );
 
